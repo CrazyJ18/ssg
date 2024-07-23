@@ -1,6 +1,6 @@
 import unittest
 
-from htmlnode import HTMLNode, LeafNode
+from htmlnode import HTMLNode, LeafNode, ParentNode
 
 
 class TestHTMLNode(unittest.TestCase):
@@ -39,7 +39,10 @@ class TestHTMLNode(unittest.TestCase):
         self.assertEqual(node.to_html(), target)
 
     def test_to_html5(self):
-        node = LeafNode("img", props={"src":"url/of/image.jpg", "alt":"Description of image"})
+        node = LeafNode(
+            "img", 
+            props={"src":"url/of/image.jpg", "alt":"Description of image"}
+            )
         with self.assertRaises(ValueError):
             node.to_html()
 
@@ -47,6 +50,41 @@ class TestHTMLNode(unittest.TestCase):
         node = LeafNode("li", "Item 1")
         target = "<li>Item 1</li>"
         self.assertEqual(node.to_html(), target)
+    
+    def test_to_html7(self):
+        node = ParentNode(
+            "p",
+            [
+                LeafNode("b", "Bold text"),
+                LeafNode(None, "Normal text"),
+                LeafNode("i", "italic text"),
+                LeafNode(None, "Normal text")
+            ]
+        )
+        target = "<p><b>Bold text</b>Normal text<i>italic text</i>Normal text</p>"
+        self.assertEqual(node.to_html(), target)
+    
+    def test_to_html8(self):
+        node = ParentNode(
+            "p",
+            [
+                LeafNode("h1", "List"),
+                ParentNode(
+                    "ul",
+                    [
+                        LeafNode("li", "apples"),
+                        LeafNode("li", "bananas"),
+                    ]
+                )
+            ]
+        )
+        target = "<p><h1>List</h1><ul><li>apples</li><li>bananas</li></ul></p>"
+        self.assertEqual(node.to_html(), target)
+
+    def test_to_html9(self):
+        node = ParentNode("p")
+        with self.assertRaises(ValueError):
+            node.to_html()
 
 
 if __name__ == "__main__":

@@ -32,3 +32,18 @@ class LeafNode(HTMLNode):
         if self.props == None:
             return f"<{self.tag}>{self.value}</{self.tag}>"
         return f'<a href="{self.props["href"]}">{self.value}</a>'
+    
+
+class ParentNode(HTMLNode):
+    def __init__(self, tag=None, children=None, props=None):
+        super().__init__(tag, None, children, props)
+    
+    def to_html(self):
+        if self.tag == None:
+            raise ValueError("no tag")
+        if self.children == None:
+            raise ValueError("no children")
+        results = ""
+        for node in self.children:
+            results += node.to_html()
+        return f"<{self.tag}>{results}</{self.tag}>"
