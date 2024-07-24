@@ -12,9 +12,3 @@ class TextNode:
     
     def __repr__(self):
         return f"TextNode({self.text}, {self.text_type}, {self.url})"
-
-def main():
-    test_node = TextNode("This is a test node", "italic")
-    print(test_node)
-
-main()

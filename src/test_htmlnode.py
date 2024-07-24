@@ -46,6 +46,15 @@ class TestHTMLNode(unittest.TestCase):
         with self.assertRaises(ValueError):
             node.to_html()
 
+    def test_to_html5_1(self):
+        node = LeafNode(
+            "img", 
+            "",
+            props={"src":"url/of/image.jpg", "alt":"Description of image"}
+            )
+        target = '<img src="url/of/image.jpg" alt="Description of image">'
+        self.assertEqual(node.to_html(), target)
+
     def test_to_html6(self):
         node = LeafNode("li", "Item 1")
         target = "<li>Item 1</li>"
