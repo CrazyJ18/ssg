@@ -19,7 +19,6 @@ class TestSplitNodes(unittest.TestCase):
         target = [
             TextNode("This is text with ", text_type_text),
             TextNode("bold words", text_type_bold),
-            TextNode("", text_type_text)
             ]
         self.assertEqual(new_nodes, target)
 
@@ -31,7 +30,6 @@ class TestSplitNodes(unittest.TestCase):
             TextNode("word", text_type_italic),
             TextNode(" is ", text_type_text),
             TextNode("italic", text_type_italic),
-            TextNode("", text_type_text)
             ]
         self.assertEqual(new_nodes, target)
 
@@ -39,7 +37,6 @@ class TestSplitNodes(unittest.TestCase):
         node = TextNode("**Bold** move", text_type_text)
         new_nodes = split_nodes_delimiter([node], "**", text_type_bold)
         target = [
-            TextNode("", text_type_text),
             TextNode("Bold", text_type_bold),
             TextNode(" move", text_type_text)
             ]

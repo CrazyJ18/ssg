@@ -13,10 +13,11 @@ def split_nodes_delimiter(old_nodes, delimiter, text_type):
                 raise Exception("no closing delimiter")
             split_nodes = []
             for i in range(split_text_len):
-                if i % 2 == 0:
-                    split_nodes.append(TextNode(split_text[i], text_type_text))
-                else:
-                    split_nodes.append(TextNode(split_text[i], text_type))
+                if split_text[i] != "":
+                    if i % 2 == 0:
+                        split_nodes.append(TextNode(split_text[i], text_type_text))
+                    else:
+                        split_nodes.append(TextNode(split_text[i], text_type))
             new_nodes.extend(split_nodes)
     return new_nodes
 
