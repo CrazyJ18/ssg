@@ -56,7 +56,3 @@ def split_nodes_link(old_nodes):
             if text != "":
                 new_nodes.append(TextNode(text, text_type_text))
     return new_nodes
-
-#nodes = [TextNode("This is text with ![two](path/to/image1) ![images](path/to/image2)", text_type_text)]
-
-#print(split_nodes_image(nodes))

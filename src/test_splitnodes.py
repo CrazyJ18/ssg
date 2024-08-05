@@ -42,6 +42,14 @@ class TestSplitNodes(unittest.TestCase):
             ]
         self.assertEqual(new_nodes, target)
 
+    def test_split_nodes_delimiter4(self):
+        node = TextNode("just text", text_type_text)
+        new_nodes = split_nodes_delimiter([node], "**", text_type_bold)
+        target = [
+            TextNode("just text", text_type_text)
+            ]
+        self.assertEqual(new_nodes, target)
+
     def test_split_nodes_image(self):
         nodes = [
             TextNode("This is text with ![an image](path/to/image) in it", text_type_text)
