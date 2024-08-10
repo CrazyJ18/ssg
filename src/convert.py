@@ -22,3 +22,11 @@ def text_to_textnodes(text):
     nodes = split_nodes_delimiter(nodes, "**", text_type_bold)
     nodes = split_nodes_delimiter(nodes, "*", text_type_italic)
     return split_nodes_delimiter(nodes, "`", text_type_code)
+
+def markdown_to_blocks(markdown):
+    blocks = []
+    for s in markdown.split("\n\n"):
+        stripped = s.strip()
+        if stripped != "":
+            blocks.append(stripped)
+    return blocks
