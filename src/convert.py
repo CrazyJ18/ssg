@@ -30,3 +30,28 @@ def markdown_to_blocks(markdown):
         if stripped != "":
             blocks.append(stripped)
     return blocks
+
+def block_to_block_type(block):
+    if (block[:2] == "# "or block[:3] == "## " or block[:4] == "### " or
+        block[:5] == "#### " or block[:6] == "##### " or 
+        block[:7] == "###### "):
+        return "heading"
+    if block[:3] and block[-3:]== "```":
+        return "code"
+    block_lines = block.splitlines()
+    for line in block_lines:
+        if line[0] != ">":
+            break
+    else:
+        return "quote"
+    for line in block_lines:
+        if line[:2] != "* " | "- ":
+            break
+    else:
+        return "unordered_list"
+    for i in range(len(block_lines)):
+        if block_lines[i][:3] != f"{i+1}. ":
+            break
+    else:
+        return "ordered_list"
+    return "paragraph"
