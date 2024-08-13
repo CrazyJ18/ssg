@@ -36,7 +36,7 @@ def block_to_block_type(block):
         block[:5] == "#### " or block[:6] == "##### " or 
         block[:7] == "###### "):
         return "heading"
-    if block[:3] and block[-3:]== "```":
+    if block[:3] and block[-3:] == "```":
         return "code"
     block_lines = block.splitlines()
     for line in block_lines:
@@ -45,7 +45,7 @@ def block_to_block_type(block):
     else:
         return "quote"
     for line in block_lines:
-        if line[:2] != "* " | "- ":
+        if line[:2] != "* " and "- ":
             break
     else:
         return "unordered_list"

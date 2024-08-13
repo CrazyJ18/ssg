@@ -130,6 +130,32 @@ This is a paragraph of text. It has some **bold** and *italic* words inside of i
             ]
         self.assertEqual(markdown_to_blocks(markdown), target)
 
+    def test_block_to_block_type(self):
+        block = "# This is a Heading"
+        target = "heading"
+        self.assertEqual(block_to_block_type(block), target)
+
+    def test_block_to_block_type2(self):
+        block = "###### This is a Heading"
+        target = "heading"
+        self.assertEqual(block_to_block_type(block), target)
+
+    def test_block_to_block_type3(self):
+        block = "```Here is some code```"
+        target = "code"
+        self.assertEqual(block_to_block_type(block), target)
+
+    def test_block_to_block_type4(self):
+        block = """>Here is a quote
+>that takes multiple lines"""
+        target = "quote"
+        self.assertEqual(block_to_block_type(block), target)
+
+    def test_block_to_block_type5(self):
+        block = "* milk\n* eggs\n* cheese"
+        target = "unordered_list"
+        self.assertEqual(block_to_block_type(block), target)
+
 
 if __name__ == "__main__":
     unittest.main()
