@@ -45,7 +45,7 @@ def block_to_block_type(block):
     else:
         return "quote"
     for line in block_lines:
-        if line[:2] != "* " and "- ":
+        if line[:2] != "* " and line[:2] != "- ":
             break
     else:
         return "unordered_list"
