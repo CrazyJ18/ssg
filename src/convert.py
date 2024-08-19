@@ -1,4 +1,4 @@
-from htmlnode import LeafNode
+from htmlnode import *
 from splitnodes import *
 
 def text_node_to_html_node(text_node):
@@ -55,3 +55,32 @@ def block_to_block_type(block):
     else:
         return "ordered_list"
     return "paragraph"
+
+
+def markdown_to_html_node(markdown):
+    block_nodes = []
+    for block in markdown_to_blocks(markdown):
+        block_type = block_to_block_type(block)
+        match block_type:
+            case "paragraph":
+                block_nodes.append(ParentNode("p", text_to_children(block)))
+            case "heading":
+                split_block = block.split(" ", 1)
+                block_nodes.append(ParentNode(
+                    f"h{len(split_block[0])}", 
+                    text_to_children(split_block[1])))
+            case "quote":
+                text_lines = block[1:].split("\n>")
+                text = ""
+                for i in range(len(text_lines)-1):
+                    text += text_lines[i] + "\n"
+                text += text_lines[-1]
+                block_nodes.append(ParentNode(
+                    "blockquote", text_to_children(text)))
+            
+
+def text_to_children(text):
+    html_nodes = []
+    for node in text_to_textnodes(text):
+        html_nodes.append(text_node_to_html_node(node))
+    return html_nodes
