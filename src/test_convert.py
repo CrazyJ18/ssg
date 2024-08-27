@@ -176,6 +176,11 @@ This is a paragraph of text. It has some **bold** and *italic* words inside of i
         target = "paragraph"
         self.assertEqual(block_to_block_type(block), target)
 
+    def test_block_to_block_type10(self):
+        block = "1. a\n2. very\n3. long\n4. test\n5. list\n6. it\n7. just\n8. keeps\n9. going\n10. and\n11. going"
+        target = "ordered_list"
+        self.assertEqual(block_to_block_type(block), target)
+
 
 if __name__ == "__main__":
     unittest.main()

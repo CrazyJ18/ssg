@@ -50,7 +50,8 @@ def block_to_block_type(block):
     else:
         return "unordered_list"
     for i in range(len(block_lines)):
-        if block_lines[i][:3] != f"{i+1}. ":
+        li_num = f"{i + 1}"
+        if block_lines[i][:len(li_num) + 2] != li_num + ". ":
             break
     else:
         return "ordered_list"
@@ -70,14 +71,39 @@ def markdown_to_html_node(markdown):
                     f"h{len(split_block[0])}", 
                     text_to_children(split_block[1])))
             case "quote":
-                text_lines = block[1:].split("\n>")
+                text_lines = get_text_lines(block, 1)
                 text = ""
-                for i in range(len(text_lines)-1):
-                    text += text_lines[i] + "\n"
+                for line in text_lines[:-1]:
+                    text += line + "\n"
                 text += text_lines[-1]
                 block_nodes.append(ParentNode(
                     "blockquote", text_to_children(text)))
-            
+            case "code":
+                inner_node = ParentNode("code", text_to_children(block[3:-3]))
+                block_nodes.append(ParentNode("pre", [inner_node]))
+            case "unordered_list":
+                text_lines = get_text_lines(block, 2)
+                list_items = get_list_items(text_lines)
+                block_nodes.append(ParentNode("ul", list_items))
+            case "ordered_list":
+                text_lines = get_text_lines(block, 2, 1)
+                list_items = get_list_items(text_lines)
+                block_nodes.append(ParentNode("ol", list_items))
+
+def get_text_lines(block, offset, li_num_len=0):
+    split_block = block.split("\n")
+    text_lines = []
+    for i in range(len(split_block)):
+        if li_num_len != 0: # this doesn't work
+            li_num_len = len(f"{i + 1}")
+        text_lines.append(split_block[i][offset + li_num_len:])
+    return text_lines
+
+def get_list_items(text_lines):
+    list_items = []
+    for line in text_lines:
+        list_items.append(ParentNode("li", text_to_children(line)))
+    return list_items
 
 def text_to_children(text):
     html_nodes = []
