@@ -86,17 +86,21 @@ def markdown_to_html_node(markdown):
                 list_items = get_list_items(text_lines)
                 block_nodes.append(ParentNode("ul", list_items))
             case "ordered_list":
-                text_lines = get_text_lines(block, 2, 1)
+                text_lines = get_text_lines(block, 2, True)
                 list_items = get_list_items(text_lines)
                 block_nodes.append(ParentNode("ol", list_items))
 
-def get_text_lines(block, offset, li_num_len=0):
+def get_text_lines(block, offset, ordered):
     split_block = block.split("\n")
     text_lines = []
-    for i in range(len(split_block)):
-        if li_num_len != 0: # this doesn't work
-            li_num_len = len(f"{i + 1}")
-        text_lines.append(split_block[i][offset + li_num_len:])
+    match ordered:
+        case True:
+            for i in range(len(split_block)):
+                li_num_len = len(f"{i + 1}")
+                text_lines.append(split_block[i][offset + li_num_len])
+        case _:
+            for line in split_block:
+                text_lines.append(line[offset:])
     return text_lines
 
 def get_list_items(text_lines):
