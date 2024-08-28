@@ -181,6 +181,20 @@ This is a paragraph of text. It has some **bold** and *italic* words inside of i
         target = "ordered_list"
         self.assertEqual(block_to_block_type(block), target)
 
+    def test_markdown_to_html_node(self):
+        markdown = "Hello there"
+        target = ParentNode(
+            "div", [ParentNode("p", [LeafNode(value="Hello there")])])
+        self.assertEqual(markdown_to_html_node(markdown), target)
+
+    def test_markdown_to_html_node2(self):
+        markdown = "## A Heading\n\nSome more *text*"
+        target = ParentNode(
+            "div", [ParentNode("h2", [LeafNode(value="A Heading")]), 
+                    ParentNode("p", [LeafNode(value="Some more "), 
+                                     LeafNode("i", "text")])])
+        self.assertEqual(markdown_to_html_node(markdown), target)
+
 
 if __name__ == "__main__":
     unittest.main()

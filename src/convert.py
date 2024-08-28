@@ -61,8 +61,7 @@ def block_to_block_type(block):
 def markdown_to_html_node(markdown):
     block_nodes = []
     for block in markdown_to_blocks(markdown):
-        block_type = block_to_block_type(block)
-        match block_type:
+        match block_to_block_type(block):
             case "paragraph":
                 block_nodes.append(ParentNode("p", text_to_children(block)))
             case "heading":
@@ -89,6 +88,7 @@ def markdown_to_html_node(markdown):
                 text_lines = get_text_lines(block, 2, True)
                 list_items = get_list_items(text_lines)
                 block_nodes.append(ParentNode("ol", list_items))
+    return ParentNode("div", block_nodes)
 
 def get_text_lines(block, offset, ordered):
     split_block = block.split("\n")
@@ -96,8 +96,7 @@ def get_text_lines(block, offset, ordered):
     match ordered:
         case True:
             for i in range(len(split_block)):
-                li_num_len = len(f"{i + 1}")
-                text_lines.append(split_block[i][offset + li_num_len])
+                text_lines.append(split_block[i][offset + len(f"{i + 1}"):])
         case _:
             for line in split_block:
                 text_lines.append(line[offset:])
