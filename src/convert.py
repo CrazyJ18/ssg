@@ -90,7 +90,7 @@ def markdown_to_html_node(markdown):
                 block_nodes.append(ParentNode("ol", list_items))
     return ParentNode("div", block_nodes)
 
-def get_text_lines(block, offset, ordered):
+def get_text_lines(block, offset, ordered=False):
     split_block = block.split("\n")
     text_lines = []
     match ordered:

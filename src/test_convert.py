@@ -195,6 +195,33 @@ This is a paragraph of text. It has some **bold** and *italic* words inside of i
                                      LeafNode("i", "text")])])
         self.assertEqual(markdown_to_html_node(markdown), target)
 
+    def test_markdown_to_html_node3(self):
+        markdown = ">Four score\n>and seven years ago"
+        target = ParentNode(
+            "div", 
+            [ParentNode(
+                "blockquote", 
+                [LeafNode(value="Four score\nand seven years ago")])])
+        self.assertEqual(markdown_to_html_node(markdown), target)
+
+    def test_markdown_to_html_node4(self):
+        markdown = """# Grocery List
+
+- eggs
+- bacon
+- milk"""
+        target = ParentNode(
+            "div", 
+            [ParentNode(
+                "h1", 
+                [LeafNode(value="Grocery List")]), 
+                ParentNode(
+                    "ul", 
+                    [ParentNode("li", [LeafNode(value="eggs")]),
+                     ParentNode("li", [LeafNode(value="bacon")]),
+                     ParentNode("li", [LeafNode(value="milk")])])])
+        self.assertEqual(markdown_to_html_node(markdown), target)
+
 
 if __name__ == "__main__":
     unittest.main()
