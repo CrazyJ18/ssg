@@ -222,6 +222,25 @@ This is a paragraph of text. It has some **bold** and *italic* words inside of i
                      ParentNode("li", [LeafNode(value="milk")])])])
         self.assertEqual(markdown_to_html_node(markdown), target)
 
+    def test_markdown_to_html_node5(self):
+        markdown = """1. this\n2. is\n3. a\n4. long\n5. long\n6. list
+\n```print("hello world)```"""
+        target = ParentNode(
+            "div", 
+            [ParentNode(
+                "ol", 
+                [ParentNode("li", [LeafNode(value="this")]), 
+                 ParentNode("li", [LeafNode(value="is")]),
+                 ParentNode("li", [LeafNode(value="a")]),
+                 ParentNode("li", [LeafNode(value="long")]),
+                 ParentNode("li", [LeafNode(value="long")]),
+                 ParentNode("li", [LeafNode(value="list")])]),
+            ParentNode(
+                "pre", 
+                [ParentNode(
+                    "code", [LeafNode(value='print("hello world)')])])])
+        self.assertEqual(markdown_to_html_node(markdown), target)
+
 
 if __name__ == "__main__":
     unittest.main()
