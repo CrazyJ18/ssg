@@ -1,4 +1,5 @@
 # required for boot.dev course
 __pycache__/
+public/
 
-/public
+static/
