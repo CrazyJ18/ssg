@@ -27,6 +27,21 @@ class TestExtract(unittest.TestCase):
             ]
         self.assertEqual(extract_markdown_links(text), target)
 
+    def test_extract_title(self):
+        markdown = "# Hello"
+        target = "Hello"
+        self.assertEqual(extract_title(markdown), target)
+
+    def test_extract_title2(self):
+        markdown = "# Hello   "
+        target = "Hello"
+        self.assertEqual(extract_title(markdown), target)
+
+    def test_extract_title3(self):
+        markdown = "Hello   "
+        with self.assertRaises(Exception):
+            extract_title(markdown)
+
 
 if __name__ == '__main__':
     unittest.main()

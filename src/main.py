@@ -19,6 +19,7 @@ def copy_dir(src, dst):
             copy_dir(entry_path, os.path.join(dst, entry))
     return
 
+
 def main():
     copy_dir("static", "public")
 
