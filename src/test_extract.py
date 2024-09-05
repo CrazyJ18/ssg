@@ -41,6 +41,11 @@ class TestExtract(unittest.TestCase):
         markdown = "Hello   "
         with self.assertRaises(Exception):
             extract_title(markdown)
+    
+    def test_extract_title4(self):
+        markdown = "#    Hello   "
+        target = "Hello"
+        self.assertEqual(extract_title(markdown), target)
 
 
 if __name__ == '__main__':
