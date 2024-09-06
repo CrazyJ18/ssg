@@ -141,7 +141,7 @@ This is a paragraph of text. It has some **bold** and *italic* words inside of i
         self.assertEqual(block_to_block_type(block), target)
 
     def test_block_to_block_type3(self):
-        block = "```Here is some code```"
+        block = "```\nHere is some code\n```"
         target = "code"
         self.assertEqual(block_to_block_type(block), target)
 
@@ -224,7 +224,7 @@ This is a paragraph of text. It has some **bold** and *italic* words inside of i
 
     def test_markdown_to_html_node5(self):
         markdown = """1. this\n2. is\n3. a\n4. long\n5. long\n6. list
-\n```print("hello world)```"""
+\n```\nprint("hello world)\n```"""
         target = ParentNode(
             "div", 
             [ParentNode(
@@ -239,6 +239,22 @@ This is a paragraph of text. It has some **bold** and *italic* words inside of i
                 "pre", 
                 [ParentNode(
                     "code", [LeafNode(value='print("hello world)')])])])
+        self.assertEqual(markdown_to_html_node(markdown), target)
+
+    def test_markdown_to_html_node6(self):
+        markdown = "```\nThis is code\n```"
+        target = ParentNode(
+            "div",
+            [ParentNode(
+                "pre",
+                [ParentNode(
+                    "code",
+                    [LeafNode(value="This is code")]
+                )]
+            )]
+        )
+        print(target)
+        print(markdown_to_html_node(markdown))
         self.assertEqual(markdown_to_html_node(markdown), target)
 
 

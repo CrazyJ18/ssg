@@ -38,5 +38,6 @@ def generate_page(from_path, template_path, dest_path):
 
 def main():
     copy_dir("static", "public")
+    generate_page("content/index.md", "template.html", "public/index.html")
 
 main()

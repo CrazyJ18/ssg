@@ -36,9 +36,9 @@ def block_to_block_type(block):
         block[:5] == "#### " or block[:6] == "##### " or 
         block[:7] == "###### "):
         return "heading"
-    if block[:3] and block[-3:] == "```":
-        return "code"
     block_lines = block.splitlines()
+    if block_lines[0] == "```" and block_lines[-1] == "```":
+        return "code"
     for line in block_lines:
         if line[0] != ">":
             break
@@ -78,7 +78,7 @@ def markdown_to_html_node(markdown):
                 block_nodes.append(ParentNode(
                     "blockquote", text_to_children(text)))
             case "code":
-                inner_node = ParentNode("code", text_to_children(block[3:-3]))
+                inner_node = ParentNode("code", text_to_children(block[4:-4]))
                 block_nodes.append(ParentNode("pre", [inner_node]))
             case "unordered_list":
                 text_lines = get_text_lines(block, 2)
