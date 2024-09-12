@@ -73,8 +73,8 @@ def markdown_to_html_node(markdown):
                 text_lines = get_text_lines(block, 1)
                 text = ""
                 for line in text_lines[:-1]:
-                    text += line + "\n"
-                text += text_lines[-1]
+                    text += line.strip() + "\n"
+                text += text_lines[-1].strip()
                 block_nodes.append(ParentNode(
                     "blockquote", text_to_children(text)))
             case "code":
