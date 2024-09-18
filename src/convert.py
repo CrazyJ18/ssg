@@ -65,41 +65,36 @@ def markdown_to_html_node(markdown):
             case "paragraph":
                 block_nodes.append(ParentNode("p", text_to_children(block)))
             case "heading":
-                split_block = block.split(" ", 1)
+                split_block = block.split(maxsplit=1)
                 block_nodes.append(ParentNode(
                     f"h{len(split_block[0])}", 
                     text_to_children(split_block[1])))
             case "quote":
-                text_lines = get_text_lines(block, 1)
+                text_lines = get_text_lines(block)
                 text = ""
                 for line in text_lines[:-1]:
-                    text += line.strip() + "\n"
-                text += text_lines[-1].strip()
+                    text += line + "\n"
+                text += text_lines[-1]
                 block_nodes.append(ParentNode(
                     "blockquote", text_to_children(text)))
             case "code":
                 inner_node = ParentNode("code", text_to_children(block[4:-4]))
                 block_nodes.append(ParentNode("pre", [inner_node]))
             case "unordered_list":
-                text_lines = get_text_lines(block, 2)
+                text_lines = get_text_lines(block)
                 list_items = get_list_items(text_lines)
                 block_nodes.append(ParentNode("ul", list_items))
             case "ordered_list":
-                text_lines = get_text_lines(block, 2, True)
+                text_lines = get_text_lines(block)
                 list_items = get_list_items(text_lines)
                 block_nodes.append(ParentNode("ol", list_items))
     return ParentNode("div", block_nodes)
 
-def get_text_lines(block, offset, ordered=False):
-    split_block = block.split("\n")
+def get_text_lines(block):
     text_lines = []
-    match ordered:
-        case True:
-            for i in range(len(split_block)):
-                text_lines.append(split_block[i][offset + len(f"{i + 1}"):])
-        case _:
-            for line in split_block:
-                text_lines.append(line[offset:])
+    for line in block.splitlines():
+        split_line = line.split(maxsplit=1)
+        text_lines.append(split_line[1])
     return text_lines
 
 def get_list_items(text_lines):
